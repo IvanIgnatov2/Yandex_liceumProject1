@@ -392,14 +392,14 @@ class Filword_menu(QMainWindow):
         uic.loadUi(f, self)
         self.recordButton.clicked.connect(self.open_records)
         self.generatorButton.clicked.connect(self.generate)
-        self.radioButton.clicked.connect(self.choosing_a_theme_1)
-        self.radioButton_2.clicked.connect(self.choosing_a_theme_2)
-        self.radioButton_3.clicked.connect(self.choosing_a_theme_3)
-        self.radioButton_4.clicked.connect(self.choosing_a_theme_4)
+        self.radioButton.toggled.connect(self.choosing_a_theme_1)
+        self.radioButton_2.toggled.connect(self.choosing_a_theme_2)
+        self.radioButton_3.toggled.connect(self.choosing_a_theme_3)
+        self.radioButton_4.toggled.connect(self.choosing_a_theme_4)
         self.Fildword_list_open = True
         self.database_name = []
         self.letters_for_table = []
-        self.list_of_tams_ids = []
+        self.list_of_tems_ids = []
         self.words_for_filword = []
 
     def open_records(self):
@@ -429,17 +429,18 @@ class Filword_tabel(QMainWindow):
         f = io.StringIO(tabel)
         uic.loadUi(f, self)
         self.letters_for_table = []
-        self.list_of_tams_ids = []
+        self.list_of_tems_ids = []
         self.words_for_filword = []
         self.Fildword_tabel_open = True
 
     def generate_2(self):
+        # print(self.database_name)
         for _ in range(10):
             self.letters_for_table.append([])
         for _ in range(self.spinBox.value()):
-            self.list_of_tams_ids.append(randint(0, len(Filword_menu.self.database_name)))
-        for list_ids in self.list_of_tams_ids:
-            conn = sqlite3.connect(f'{Filword_menu.self.database_name[list_ids]}')
+            self.list_of_tems_ids.append(randint(0, len(self.database_name) - 1))
+        for list_ids in self.list_of_tems_ids:
+            conn = sqlite3.connect(f'{self.database_name[list_ids]}')
             cursor = conn.cursor()
             cursor.execute('SELECT COUNT(*) FROM words')
             row_count = cursor.fetchone()[0]
@@ -452,11 +453,13 @@ class Filword_tabel(QMainWindow):
             self.words_for_filword.append(result[0])
             # Закрываем соединение с базой данных
             conn.close()
+        # print(self.words_for_filword)
         counter = 0
         for word in self.words_for_filword:
             for letter in word:
                 self.letters_for_table[counter].append(letter)
             counter += 1
+        # print(self.letters_for_table)
         self.Fildword_tabel_open = Filword_tabel()
         self.Fildword_tabel_open.show()
 
@@ -517,3 +520,4 @@ if __name__ == '__main__':
     Fildword_2 = Filword_menu()
     Fildword_2.show()
     sys.exit(app.exec())
+
