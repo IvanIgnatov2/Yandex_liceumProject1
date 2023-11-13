@@ -22,10 +22,10 @@ words = [
     "литосфера", "эрозия", "вулканизм", "тектоника", "гидрология", "климатология", "биом", "экосистема",
     "географическое", "карта", "глобус", "широта", "долгота", "масштаб", "экспедиция", "рельеф", "горный", "поле",
 ]
-with open('words1.txt', 'w') as file:
+with open('words1.txt', 'w', encoding='utf8') as file:
     for item in words:
         file.write(str(item) + '\n')
-with open('words1.txt', 'r') as file:
+with open('words1.txt', 'r', encoding='utf8') as file:
     for line in file:
         words.append(line.strip())
 words_2 = [i for i in words if len(i) <= 10]
@@ -54,10 +54,10 @@ words = ["античность", "феодализм", "революция", "м
          "стандартизация", "реконструкция", "компромисс", "партизанство", "оккупация", "сепаратизм", "движение",
          "политика", "конфликт", "цензура", "репрессия", "активист", "личность", "расизм", "фашизм", "имманентность",
          "бюрократия", "коллективизация", "договор", "жертва", "князь", "барон", "парламент"]
-with open('words2.txt', 'w') as file:
+with open('words2.txt', 'w', encoding='utf8') as file:
     for item in words:
         file.write(str(item) + '\n')
-with open('words2.txt', 'r') as file:
+with open('words2.txt', 'r', encoding='utf8') as file:
     for line in file:
         words.append(line.strip())
 words_2 = [i for i in words if len(i) <= 10]
@@ -93,10 +93,10 @@ words = ['Государство', 'Политика', 'Демократия', '
          'Раскол', 'Коллективизация', 'Конкуренция', 'Кризис', 'Противоречие', 'Тоталитарное', 'Демократический',
          'Партийный', 'Политическая', 'Финансовый', 'Автоматизация', 'Индустриализация', 'Деформация', 'Общественный',
          ]
-with open('words3.txt', 'w') as file:
+with open('words3.txt', 'w', encoding='utf8') as file:
     for item in words:
         file.write(str(item) + '\n')
-with open('words3.txt', 'r') as file:
+with open('words3.txt', 'r', encoding='utf8') as file:
     for line in file:
         words.append(line.strip())
 words_2 = [i for i in words if len(i) <= 10]
@@ -143,10 +143,10 @@ words = [
     'потолочная лампа', 'стеновая лампа', 'ночник', 'лампочка', 'лампа', 'светильник', 'датчик', 'газ',
     'вода', 'электричество', 'кабель', 'розетка', 'выключатель', 'лампочка', 'светильник', 'стеновая лампа',
     'потолочная лампа']
-with open('words4.txt', 'w') as file:
+with open('words4.txt', 'w', encoding='utf8') as file:
     for item in words:
         file.write(str(item) + '\n')
-with open('words4.txt', 'r') as file:
+with open('words4.txt', 'r', encoding='utf8') as file:
     for line in file:
         words.append(line.strip())
 words_2 = [i for i in words if len(i) <= 10]
