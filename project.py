@@ -3,8 +3,10 @@ import sqlite3
 import sys
 from random import randint
 
+from PyQt5 import QtWidgets
 from PyQt5 import uic
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtCore import QTimer
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog
 
 game = '''<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
@@ -60,14 +62,18 @@ game = '''<?xml version="1.0" encoding="UTF-8"?>
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="QLabel" name="label">
+      <widget class="QPushButton" name="pushButton_2">
        <property name="text">
-        <string>TextLabel</string>
+        <string>Начать</string>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLCDNumber" name="lcdNumber_2"/>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -91,7 +97,7 @@ menu = '''<?xml version="1.0" encoding="UTF-8"?>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Menu</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="formLayoutWidget">
@@ -131,7 +137,7 @@ menu = '''<?xml version="1.0" encoding="UTF-8"?>
      <item row="6" column="1">
       <widget class="QLineEdit" name="lineEdit">
        <property name="text">
-        <string>Тема 1</string>
+        <string>Тема 1: География</string>
        </property>
       </widget>
      </item>
@@ -145,7 +151,7 @@ menu = '''<?xml version="1.0" encoding="UTF-8"?>
      <item row="7" column="1">
       <widget class="QLineEdit" name="lineEdit_2">
        <property name="text">
-        <string>Тема 2</string>
+        <string>Тема 2: История</string>
        </property>
       </widget>
      </item>
@@ -159,7 +165,7 @@ menu = '''<?xml version="1.0" encoding="UTF-8"?>
      <item row="8" column="1">
       <widget class="QLineEdit" name="lineEdit_3">
        <property name="text">
-        <string>Тема 3</string>
+        <string>Тема 3: Общество</string>
        </property>
       </widget>
      </item>
@@ -173,7 +179,7 @@ menu = '''<?xml version="1.0" encoding="UTF-8"?>
      <item row="9" column="1">
       <widget class="QLineEdit" name="lineEdit_4">
        <property name="text">
-        <string>Тема 4</string>
+        <string>Тема 4: Дом</string>
        </property>
       </widget>
      </item>
@@ -201,21 +207,34 @@ records_list = '''<?xml version="1.0" encoding="UTF-8"?>
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>241</width>
-    <height>202</height>
+    <width>381</width>
+    <height>228</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QListView" name="listView">
+   <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>1</y>
-      <width>256</width>
-      <height>201</height>
+      <x>260</x>
+      <y>0</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Показать рекорды</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="textEdit">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>0</y>
+      <width>231</width>
+      <height>191</height>
      </rect>
     </property>
    </widget>
@@ -234,147 +253,173 @@ tabel = '''<?xml version="1.0" encoding="UTF-8"?>
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>296</width>
-    <height>306</height>
+    <width>401</width>
+    <height>328</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="horizontalLayoutWidget">
+   <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>9</x>
+      <x>310</x>
       <y>10</y>
-      <width>281</width>
-      <height>281</height>
+      <width>91</width>
+      <height>23</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QTableWidget" name="tableWidget">
-       <property name="maximumSize">
-        <size>
-         <width>16777213</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <attribute name="horizontalHeaderDefaultSectionSize">
-        <number>25</number>
-       </attribute>
-       <attribute name="horizontalHeaderMinimumSectionSize">
-        <number>25</number>
-       </attribute>
-       <attribute name="verticalHeaderDefaultSectionSize">
-        <number>25</number>
-       </attribute>
-       <attribute name="verticalHeaderMinimumSectionSize">
-        <number>25</number>
-       </attribute>
-       <row>
-        <property name="text">
-         <string/>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string/>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string/>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string/>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string/>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string/>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string/>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string/>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string/>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string/>
-        </property>
-       </row>
-       <column>
-        <property name="text">
-         <string/>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string/>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string/>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string/>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string/>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string/>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string/>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string/>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string/>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string/>
-        </property>
-       </column>
-      </widget>
-     </item>
-    </layout>
+    <property name="text">
+     <string>Начать</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tableWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>279</width>
+      <height>279</height>
+     </rect>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>16777213</width>
+      <height>16777215</height>
+     </size>
+    </property>
+    <attribute name="horizontalHeaderDefaultSectionSize">
+     <number>25</number>
+    </attribute>
+    <attribute name="horizontalHeaderMinimumSectionSize">
+     <number>25</number>
+    </attribute>
+    <attribute name="horizontalHeaderStretchLastSection">
+     <bool>true</bool>
+    </attribute>
+    <attribute name="verticalHeaderDefaultSectionSize">
+     <number>25</number>
+    </attribute>
+    <attribute name="verticalHeaderMinimumSectionSize">
+     <number>25</number>
+    </attribute>
+    <attribute name="verticalHeaderStretchLastSection">
+     <bool>true</bool>
+    </attribute>
+    <row>
+     <property name="text">
+      <string/>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string/>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string/>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string/>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string/>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string/>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string/>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string/>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string/>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string/>
+     </property>
+    </row>
+    <column>
+     <property name="text">
+      <string/>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string/>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string/>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string/>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string/>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string/>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string/>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string/>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string/>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string/>
+     </property>
+    </column>
+   </widget>
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>40</y>
+      <width>91</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Начать(тест)</string>
+    </property>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -383,9 +428,48 @@ tabel = '''<?xml version="1.0" encoding="UTF-8"?>
  <connections/>
 </ui>
 '''
+error = '''<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>181</width>
+    <height>47</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>10</y>
+     <width>181</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Повторить</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
+'''
+spin_box_value = 0
+words = []
+database_name = []
+corr = False
+minutes = 0
+seconds = 0
 
 
-class Filword_menu(QMainWindow):
+class FilwordMenu(QMainWindow):
     def __init__(self):
         super().__init__()
         f = io.StringIO(menu)
@@ -396,128 +480,303 @@ class Filword_menu(QMainWindow):
         self.radioButton_2.toggled.connect(self.choosing_a_theme_2)
         self.radioButton_3.toggled.connect(self.choosing_a_theme_3)
         self.radioButton_4.toggled.connect(self.choosing_a_theme_4)
-        self.Fildword_list_open = True
-        self.database_name = []
+        self.Fildword_list_open = QMainWindow(self)
+        self.timer = QTimer(self)
+
         self.letters_for_table = []
         self.list_of_tems_ids = []
         self.words_for_filword = []
+        self.filword = []
+        self.info = []
+
+        self.fl = True
+        self.is_running = False
 
     def open_records(self):
-        self.Fildword_list_open = Filword_list()
+        self.Fildword_list_open = FilwordList()
         self.Fildword_list_open.show()
 
     def generate(self):
-        Filword_tabel.generate_2(self)
-        # Filword_game.start_time(self)
+        self.Filword_tabel_open = FilwordTabel()
+        self.Filword_tabel_open.show()
+
+        global spin_box_value
+        if self.spinBox.value() < 11:
+            spin_box_value = self.spinBox.value()
+        else:
+            spin_box_value = (self.spinBox.value()) % 10
+        FilwordGame.start_timer(self)
 
     def choosing_a_theme_1(self):
-        self.database_name.append('database_1.db')
+        database_name.append('database_1.db')
 
     def choosing_a_theme_2(self):
-        self.database_name.append('database_2.db')
+        database_name.append('database_2.db')
 
     def choosing_a_theme_3(self):
-        self.database_name.append('database_3.db')
+        database_name.append('database_3.db')
 
     def choosing_a_theme_4(self):
-        self.database_name.append('database_4.db')
+        database_name.append('database_4.db')
 
 
-class Filword_tabel(QMainWindow):
+class FilwordTabel(QMainWindow):
     def __init__(self):
         super().__init__()
         f = io.StringIO(tabel)
         uic.loadUi(f, self)
+        self.pushButton.clicked.connect(self.generate_2)
+        self.pushButton_2.clicked.connect(self.generate_test)
+        self.Filword_tabel_open = QMainWindow(self)
+
         self.letters_for_table = []
         self.list_of_tems_ids = []
         self.words_for_filword = []
-        self.Fildword_tabel_open = True
+        self.filword = []
+        self.russian_alphabet = {}
+        self.database_name = []
+        self.info = []
+        self.generation_3()
+
+    def generate_test(self):
+        global words
+        words = ['таможня', 'демократия', 'сезоны', 'берег']
+        filword_test = [['т', 'а', 'м', 'о', 'ж', 'н', 'я', [], 'д', 'с'], [[], [], [], [], [], [], [], [], 'е', 'е'],
+                        [[], [], [], [], [], 'б', [], [], 'м', 'з'], [[], [], [], [], [], 'е', [], [], 'о', 'о'],
+                        [[], [], [], [], [], 'р', [], [], 'к', 'н'], [[], [], [], [], [], 'е', [], [], 'р', 'ы'],
+                        [[], [], [], [], [], 'г', [], [], 'а', []], [[], [], [], [], [], [], [], [], 'т', []],
+                        [[], [], [], [], [], [], [], [], 'и', []], [[], [], [], [], [], [], [], [], 'я', []]]
+        self.russian_alphabet = {
+            1: 'а', 2: 'б', 3: 'в', 4: 'г', 5: 'д', 6: 'е', 7: 'ё', 8: 'ж', 9: 'з', 10: 'и', 11: 'й', 12: 'к', 13: 'л',
+            14: 'м', 15: 'н', 16: 'о', 17: 'п', 18: 'р', 19: 'с', 20: 'т', 21: 'у', 22: 'ф', 23: 'х', 24: 'ц', 25: 'ч',
+            26: 'ш', 27: 'щ', 28: 'ъ', 29: 'ы', 30: 'ь', 31: 'э', 32: 'ю', 33: 'я'
+        }
+        for i in range(len(filword_test)):
+            for j in range(len(filword_test[i])):
+                if str(filword_test[i][j]) == '[]':
+                    filword_test[i][j] = self.russian_alphabet[randint(1, 33)]
+        for i in range(len(filword_test)):
+            for j in range(len(filword_test[i])):
+                self.tableWidget.setItem(i, j, QtWidgets.QTableWidgetItem(str(filword_test[i][j])))
+        self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
 
     def generate_2(self):
-        # print(self.database_name)
-        for _ in range(10):
+        global words
+        global spin_box_value, database_name
+        for _ in range(spin_box_value):
             self.letters_for_table.append([])
-        for _ in range(self.spinBox.value()):
-            self.list_of_tems_ids.append(randint(0, len(self.database_name) - 1))
+        for _ in range(spin_box_value):
+            self.list_of_tems_ids.append(randint(0, len(database_name) - 1))
         for list_ids in self.list_of_tems_ids:
-            conn = sqlite3.connect(f'{self.database_name[list_ids]}')
+            conn = sqlite3.connect(f'{database_name[list_ids]}')
             cursor = conn.cursor()
             cursor.execute('SELECT COUNT(*) FROM words')
             row_count = cursor.fetchone()[0]
             conn.close()
-            conn = sqlite3.connect('database_1.db')
+            conn = sqlite3.connect(f'{database_name[list_ids]}')
             cursor = conn.cursor()
             id_for_table = randint(0, row_count)
             cursor.execute(f"SELECT word FROM words WHERE id = {id_for_table}")
             result = cursor.fetchone()
             self.words_for_filword.append(result[0])
-            # Закрываем соединение с базой данных
             conn.close()
-        # print(self.words_for_filword)
         counter = 0
         for word in self.words_for_filword:
             for letter in word:
                 self.letters_for_table[counter].append(letter)
             counter += 1
-        # print(self.letters_for_table)
-        self.Fildword_tabel_open = Filword_tabel()
-        self.Fildword_tabel_open.show()
+        self.russian_alphabet = {
+            1: 'а', 2: 'б', 3: 'в', 4: 'г', 5: 'д', 6: 'е', 7: 'ё', 8: 'ж', 9: 'з', 10: 'и', 11: 'й', 12: 'к', 13: 'л',
+            14: 'м', 15: 'н', 16: 'о', 17: 'п', 18: 'р', 19: 'с', 20: 'т', 21: 'у', 22: 'ф', 23: 'х', 24: 'ц', 25: 'ч',
+            26: 'ш', 27: 'щ', 28: 'ъ', 29: 'ы', 30: 'ь', 31: 'э', 32: 'ю', 33: 'я'
+        }
+        for i in range(10):
+            self.filword.append([])
+            for j in range(10):
+                self.filword[i].append([])
+        random_value = randint(1, 2)
+        if random_value == 1:
+            random_row = randint(0, 9)
+            cou = 0
+            for i in self.letters_for_table[0]:
+                self.filword[random_row][cou] = i
+                cou += 1
+        else:
+            random_colum = randint(0, 9)
+            cou = 0
+            for i in self.letters_for_table[0]:
+                self.filword[cou][random_colum] = i
+                cou += 1
+        self.generation_3()
+        for i in range(len(self.filword)):
+            for j in range(len(self.filword[i])):
+                if str(self.filword[i][j]) == '[]':
+                    self.filword[i][j] = self.russian_alphabet[randint(1, 33)]
+        for i in range(len(self.filword)):
+            for j in range(len(self.filword[i])):
+                self.tableWidget.setItem(i, j, QtWidgets.QTableWidgetItem(str(self.filword[i][j])))
+        words = self.words_for_filword
+        self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+
+    def generation_3(self):
+        for word_cords in range(1, len(self.letters_for_table)):
+            flag_cnd = False
+            random_value = randint(1, 2)
+            if random_value == 1:
+                if len(self.words_for_filword[word_cords]) != 10:
+                    delta = randint(0, 10 - len(self.words_for_filword[word_cords]))
+                else:
+                    delta = 0
+                for _ in range(10000):
+                    random_row = randint(0, 9)
+                    cou = 0
+                    flag = True
+                    for _ in self.words_for_filword[word_cords]:
+                        if str(self.filword[random_row][cou + delta - 1]) == '[]':
+                            pass
+                        else:
+                            flag = False
+                        cou += 1
+                    if flag:
+                        cou = 0
+                        for i in self.words_for_filword[word_cords]:
+                            self.filword[random_row][cou + delta - 1] = i
+                            cou += 1
+                        flag_cnd = True
+                    if flag_cnd:
+                        break
+            else:
+                if len(self.words_for_filword[word_cords]) != 10:
+                    delta = randint(0, 10 - len(self.words_for_filword[word_cords]))
+                else:
+                    delta = 0
+                for _ in range(10000):
+                    random_colum = randint(0, 9)
+                    cou = 0
+                    flag = True
+                    for _ in self.words_for_filword[word_cords]:
+                        if str(self.filword[cou + delta - 1][random_colum]) == '[]':
+                            pass
+                        else:
+                            flag = False
+                    if flag:
+                        cou = 0
+                        for i in self.words_for_filword[word_cords]:
+                            self.filword[cou + delta - 1][random_colum] = i
+                            cou += 1
+                        flag_cnd = True
+                    if flag_cnd:
+                        break
 
 
-class Filword_list(QMainWindow):
+class FilwordList(QMainWindow):
     def __init__(self):
         super().__init__()
         f = io.StringIO(records_list)
         uic.loadUi(f, self)
+        self.pushButton.clicked.connect(self.correction_2)
 
     def correction(self):
-        pass
+        global corr
+        corr = True
+
+    def correction_2(self):
+        global corr
+        if corr:
+            for i in range(1, 11):
+                conn = sqlite3.connect('records.db')
+                cursor = conn.cursor()
+                cursor.execute(f"SELECT record FROM records WHERE id = {i}")
+                result = cursor.fetchone()
+                additional_text = f'{i}: {int(result[0]) // 60}:{int(result[0]) % 60}\n'
+                current_text = self.textEdit.toPlainText()
+                self.textEdit.setText(current_text + additional_text)
+                conn.close()
 
 
-class Filword_game(QMainWindow):
+class FilwordGame(QMainWindow):
     def __init__(self):
         super().__init__()
         f = io.StringIO(game)
         uic.loadUi(f, self)
-        self.pushButton.clicked.connect(self.to_answer())
+        self.pushButton.clicked.connect(self.to_answer)
         self.pushButton_3.clicked.connect(self.end)
-        self.Filword_tabel_open = True
+        self.Filword_tabel_open = ()
+        self.pushButton_2.clicked.connect(self.start_timer)
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_timer)
+
+        self.is_running = False
+        self.fl = True
+
+        self.time_elapsed = 0
+        self.time_str = ''
+        self.stop_timer()
+        self.x = 1
 
     def to_answer(self):
-        pass
+        if self.lineEdit.text() in words:
+            self.lcdNumber.display(str(len(words) - self.x))
+            self.x += 1
+        else:
+            self.Filword_error_open = Error()
+            self.Filword_error_open.show()
+            self.lineEdit.setText('')
 
     def end(self):
-        pass
+        if self.is_running and self.x > len(words):
+            self.stop_timer()
+            conn = sqlite3.connect('records.db')
+            cursor = conn.cursor()
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS records (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    record TEXT
+                )
+            """)
+            cursor.execute("INSERT INTO records (record) VALUES (?)", (self.time_elapsed,))
+            conn.commit()
+            conn.close()
+        FilwordList.correction(self)
 
-    def start_time(self):
-        self.timer.start(1000)
-        self.Filword_tabel_open = Filword_game()
-        self.Filword_tabel_open.show()
+    def start_timer(self):
+        self.x = 1
+        if not self.is_running:
+            self.timer.start(1000)  # Запуск таймера с интервалом 1 секунда
+            self.is_running = True
+        if self.fl is True:
+            self.Filword_game_open = FilwordGame()
+            self.Filword_game_open.show()
+            self.fl = False
 
-    def update_time(self):
-        time = self.label.text()
-        time_list = time.split(':')
-        hours, minutes, seconds = map(int, time_list)
+    def update_timer(self):
+        global minutes, seconds
+        self.time_elapsed += 1
+        minutes = self.time_elapsed // 60
+        seconds = self.time_elapsed % 60
+        self.time_str = f"{minutes:02}:{seconds:02}"
+        self.label.setText(self.time_str)
 
-        seconds += 1
+    def stop_timer(self):
+        if self.is_running:
+            self.timer.stop()
+            self.is_running = False
 
-        if seconds == 60:
-            seconds = 0
-            minutes += 1
 
-            if minutes == 60:
-                minutes = 0
-                hours += 1
+class Error(QDialog):
+    def __init__(self):
+        super().__init__()
+        f = io.StringIO(error)
+        uic.loadUi(f, self)
+        self.pushButton.clicked.connect(self.error)
 
-                if hours == 24:
-                    hours = 0
-
-        self.label.setText(f'{hours:02}:{minutes:02}:{seconds:02}')
+    def error(self):
+        self.Filword_error_open = Error()
+        self.Filword_error_open.hide()
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    Fildword_2 = Filword_menu()
+    Fildword_2 = FilwordMenu()
     Fildword_2.show()
     sys.exit(app.exec())
-
