@@ -619,54 +619,57 @@ class FilwordTabel(QMainWindow):
         self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
 
     def generation_3(self):
-        for word_cords in range(1, len(self.letters_for_table)):
-            flag_cnd = False
-            random_value = randint(1, 2)
-            if random_value == 1:
-                if len(self.words_for_filword[word_cords]) != 10:
-                    delta = randint(0, 10 - len(self.words_for_filword[word_cords]))
-                else:
-                    delta = 0
-                for _ in range(10000):
-                    random_row = randint(0, 9)
-                    cou = 0
-                    flag = True
-                    for _ in self.words_for_filword[word_cords]:
-                        if str(self.filword[random_row][cou + delta - 1]) == '[]':
-                            pass
-                        else:
-                            flag = False
-                        cou += 1
-                    if flag:
+        try:
+            for word_cords in range(1, len(self.letters_for_table)):
+                flag_cnd = False
+                random_value = randint(1, 2)
+                if random_value == 1:
+                    if len(self.words_for_filword[word_cords]) != 10:
+                        delta = randint(0, 10 - len(self.words_for_filword[word_cords]))
+                    else:
+                        delta = 0
+                    for _ in range(10000):
+                        random_row = randint(0, 9)
                         cou = 0
-                        for i in self.words_for_filword[word_cords]:
-                            self.filword[random_row][cou + delta - 1] = i
+                        flag = True
+                        for _ in self.words_for_filword[word_cords]:
+                            if str(self.filword[random_row][cou + delta - 1]) == '[]':
+                                pass
+                            else:
+                                flag = False
                             cou += 1
-                        flag_cnd = True
-                    if flag_cnd:
-                        break
-            else:
-                if len(self.words_for_filword[word_cords]) != 10:
-                    delta = randint(0, 10 - len(self.words_for_filword[word_cords]))
+                        if flag:
+                            cou = 0
+                            for i in self.words_for_filword[word_cords]:
+                                self.filword[random_row][cou + delta - 1] = i
+                                cou += 1
+                            flag_cnd = True
+                        if flag_cnd:
+                            break
                 else:
-                    delta = 0
-                for _ in range(10000):
-                    random_colum = randint(0, 9)
-                    cou = 0
-                    flag = True
-                    for _ in self.words_for_filword[word_cords]:
-                        if str(self.filword[cou + delta - 1][random_colum]) == '[]':
-                            pass
-                        else:
-                            flag = False
-                    if flag:
+                    if len(self.words_for_filword[word_cords]) != 10:
+                        delta = randint(0, 10 - len(self.words_for_filword[word_cords]))
+                    else:
+                        delta = 0
+                    for _ in range(10000):
+                        random_colum = randint(0, 9)
                         cou = 0
-                        for i in self.words_for_filword[word_cords]:
-                            self.filword[cou + delta - 1][random_colum] = i
-                            cou += 1
-                        flag_cnd = True
-                    if flag_cnd:
-                        break
+                        flag = True
+                        for _ in self.words_for_filword[word_cords]:
+                            if str(self.filword[cou + delta - 1][random_colum]) == '[]':
+                                pass
+                            else:
+                                flag = False
+                        if flag:
+                            cou = 0
+                            for i in self.words_for_filword[word_cords]:
+                                self.filword[cou + delta - 1][random_colum] = i
+                                cou += 1
+                            flag_cnd = True
+                        if flag_cnd:
+                            break
+        except Exception:
+            print('Ошибка генерации')
 
 
 class FilwordList(QMainWindow):
@@ -681,18 +684,21 @@ class FilwordList(QMainWindow):
         corr = True
 
     def correction_2(self):
-        global corr
-        if corr:
-            for i in range(1, 11):
-                conn = sqlite3.connect('records.db')
-                cursor = conn.cursor()
-                cursor.execute(f"SELECT record FROM records WHERE id = {i}")
-                result = cursor.fetchone()
-                additional_text = f'{i}: {int(result[0]) // 60}:{int(result[0]) % 60}\n'
-                current_text = self.textEdit.toPlainText()
-                self.textEdit.setText(current_text + additional_text)
-                conn.close()
-
+        try:
+            global corr
+            if corr:
+                for i in range(1, 11):
+                    conn = sqlite3.connect('records.db')
+                    cursor = conn.cursor()
+                    cursor.execute(f"SELECT record FROM records WHERE id = {i}")
+                    result = cursor.fetchone()
+                    additional_text = f'{i}: {int(result[0]) // 60}:{int(result[0]) % 60}\n'
+                    current_text = self.textEdit.toPlainText()
+                    self.textEdit.setText(current_text + additional_text)
+                    conn.close()
+                    # Задаётся текст для textEdit (максимум 10 результатов по времени)
+        except Exception:
+            pass
 
 class FilwordGame(QMainWindow):
     def __init__(self):
@@ -705,6 +711,7 @@ class FilwordGame(QMainWindow):
         self.pushButton_2.clicked.connect(self.start_timer)
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_timer)
+        self.Fildword_list_open = FilwordList()
 
         self.is_running = False
         self.fl = True
@@ -738,6 +745,10 @@ class FilwordGame(QMainWindow):
             conn.commit()
             conn.close()
         FilwordList.correction(self)
+        self.Fildword_list_open = FilwordList()
+        self.Fildword_list_open.show()
+        # создаётся база данных для рекордов и заканчивается выполнение филворда,
+        # чтобы посмотреть свои рекорды и запустить новый филворд нужно запустить заново
 
     def start_timer(self):
         self.x = 1
